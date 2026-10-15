@@ -81,7 +81,7 @@ class MainActivity : ComponentActivity() {
             "https://$input"
         else input
         val uri = runCatching { Uri.parse(candidate) }.getOrNull()
-        if (uri?.scheme !in listOf("http", "https") || uri.host.isNullOrBlank())
+        if (uri == null || uri.scheme !in listOf("http", "https") || uri.host.isNullOrBlank())
             return "https://www.google.com"
         return candidate
     }
