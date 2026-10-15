@@ -1,10 +1,10 @@
+
 name: Build VideoQuick Mobile APK
 
 on:
   workflow_dispatch:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   build:
@@ -20,21 +20,22 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Instalar Android SDK
+      - name: Configurar Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          packages: ''
 
       - name: Instalar componentes Android
         run: |
           sdkmanager --install "platform-tools" "platforms;android-35" "build-tools;35.0.0"
           yes | sdkmanager --licenses
 
-      - name: Configurar Gradle
-        uses: gradle/actions/setup-gradle@v4
-
       - name: Compilar APK
-        run: gradle assembleDebug
+        run: |
+          gradle --version
+          gradle assembleDebug
 
-      - name: Publicar APK
+      - name: Guardar APK
         uses: actions/upload-artifact@v4
         with:
           name: VideoQuick-Mobile-APK
